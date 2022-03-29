@@ -45,5 +45,7 @@ public class Grafics extends GraphicsProgram {
     private static final Dimension MIDA_FINESTRA = new Dimension(1200,800);
     private GImage fons;
     private ArrayList<Emoji> emoji;
-    
-}
+
+    //////////////////////TEMPORAL/////////////////////
+    private Vector2d faltaesto = new Vector2d(0,0);////
+}   ///////////////////////////////////////////////////
