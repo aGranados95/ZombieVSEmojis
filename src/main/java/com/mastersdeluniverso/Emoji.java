@@ -11,7 +11,9 @@ public class Emoji {
     private GImage normal;
     private GImage zombificado;
 
+    protected Vector2d v;
+
     // Constructores
-    Emoji(String dir_img_normal, String dir_img_zombie) {
+    Emoji(String dir_img_normal, String dir_img_zombie, Vector2d v) {
     }
 }
