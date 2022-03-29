@@ -11,6 +11,11 @@ public class Vector2d {
         this.y = y;
     }
 
+    Vector2d(Vector2d v) {
+        this.x = v.x;
+        this.y = v.y;
+    }
+
     public double distancia(Vector2d v) {
         return Math.sqrt((v.x-this.x)*(v.x-this.x)+(v.y-this.y)*(v.y-this.y));
     }
