@@ -1,5 +1,9 @@
 package com.mastersdeluniverso;
 
-public class Grafics {
-    
+import acm.program.GraphicsProgram;
+
+public class Grafics extends GraphicsProgram {
+    public final void run() {
+        
+    }   
 }
