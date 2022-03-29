@@ -1,7 +1,5 @@
 package com.mastersdeluniverso;
 
-import java.util.Vector;
-
 import acm.graphics.GImage;
 
 public class Emoji {
