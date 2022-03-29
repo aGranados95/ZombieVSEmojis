@@ -12,8 +12,13 @@ import acm.program.GraphicsProgram;
 public class Grafics extends GraphicsProgram {
     public final void run() {
         this.resize(MIDA_FINESTRA);
-        
+        inicialitzarFons();
+
     }   
+    private void inicialitzarFons() {
+        fons = new GImage(RUTA_FONS_APP);
+        add(fons, 0, 0);
+    }
     private void inicialitzarEmoji() {
         emoji = new ArrayList<Emoji>(NOMBRE_DE_EMOJIS);
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
@@ -34,9 +39,11 @@ public class Grafics extends GraphicsProgram {
     
     private static final String FOTO_EMOJIS = System.getProperty("user.dir")
     + "\\src\\main\\resources\\img";
-    
+    private static final String RUTA_FONS_APP = System.getProperty("user.dir")
+    + "\\src\\main\\resources\\img\\fons.jpg";
     private static final int NOMBRE_DE_EMOJIS = 11;
     private static final Dimension MIDA_FINESTRA = new Dimension(1200,800);
+    private GImage fons;
     private ArrayList<Emoji> emoji;
     
 }
