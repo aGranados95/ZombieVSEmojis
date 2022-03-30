@@ -4,14 +4,15 @@ public class TempsEntreFrames {
     private double deltaTime;
     private double lastTime;
     private double currentTime;
+    private final static double DIVISOR = 1000;
 
     public TempsEntreFrames() {
-        lastTime = System.currentTimeMillis();
+        lastTime = System.nanoTime()/DIVISOR;
         currentTime = lastTime;
     }
 
     public void update() {
-        currentTime = System.currentTimeMillis();
+        currentTime = System.nanoTime()/DIVISOR;
         deltaTime = currentTime - lastTime;
         lastTime = currentTime;
     }
@@ -19,5 +20,4 @@ public class TempsEntreFrames {
     public double getDeltaTime() {
         return deltaTime;
     }
-    
 }
