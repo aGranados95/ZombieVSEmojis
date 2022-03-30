@@ -14,11 +14,19 @@ public class Grafics extends GraphicsProgram {
         this.resize(MIDA_FINESTRA);
         inicialitzarFons();
 
-    }   
+    }
+
+    /**
+     * Afegeix el fons de l'aplicació.
+     */
     private void inicialitzarFons() {
         fons = new GImage(RUTA_FONS_APP);
         add(fons, 0, 0);
     }
+
+    /**
+     * Afegeix tots els 
+     */
     private void inicialitzarEmoji() {
         emoji = new ArrayList<Emoji>(NOMBRE_DE_EMOJIS);
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
