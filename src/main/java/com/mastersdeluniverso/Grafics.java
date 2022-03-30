@@ -14,12 +14,20 @@ public class Grafics extends GraphicsProgram {
         this.resize(MIDA_FINESTRA);
         inicialitzarFons();
 
-    }   
+    }
+
+    /**
+     * Afegeix el fons de l'aplicació.
+     */
     private void inicialitzarFons() {
         fons = new GImage(RUTA_FONS_APP);
         add(fons, 0, 0);
     }
-    /* private void inicialitzarEmoji() {
+
+    /**
+     * Afegeix tots els 
+     */
+    private void inicialitzarEmoji() {
         emoji = new ArrayList<Emoji>(NOMBRE_DE_EMOJIS);
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", ));
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji2.png", FOTO_EMOJIS + "zoombie.png", ));
@@ -45,5 +53,7 @@ public class Grafics extends GraphicsProgram {
     private static final Dimension MIDA_FINESTRA = new Dimension(1200,800);
     private GImage fons;
     private ArrayList<Emoji> emoji;
-    
-}
+
+    //////////////////////TEMPORAL/////////////////////
+    private Vector2d faltaesto = new Vector2d(0,0);////
+}   ///////////////////////////////////////////////////
