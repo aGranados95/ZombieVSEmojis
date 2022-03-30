@@ -1,9 +1,0 @@
-digraph "com.mastersdeluniverso:emoji:jar:1.0-SNAPSHOT" { 
-	"com.mastersdeluniverso:emoji:jar:1.0-SNAPSHOT" -> "junit:junit:jar:4.11:test" ; 
-	"com.mastersdeluniverso:emoji:jar:1.0-SNAPSHOT" -> "acm:acm:jar:1.0:system" ; 
-	"junit:junit:jar:4.11:test" -> "org.hamcrest:hamcrest-core:jar:1.3:test" ; 
- } digraph "com.mastersdeluniverso:emoji:jar:1.0-SNAPSHOT" { 
-	"com.mastersdeluniverso:emoji:jar:1.0-SNAPSHOT" -> "junit:junit:jar:4.11:test" ; 
-	"com.mastersdeluniverso:emoji:jar:1.0-SNAPSHOT" -> "acm:acm:jar:1.0:system" ; 
-	"junit:junit:jar:4.11:test" -> "org.hamcrest:hamcrest-core:jar:1.3:test" ; 
- } 
