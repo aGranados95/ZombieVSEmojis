@@ -42,7 +42,7 @@ public class Grafics extends GraphicsProgram {
     private static final String RUTA_FONS_APP = System.getProperty("user.dir")
     + "\\src\\main\\resources\\img\\fons.jpg";
     private static final int NOMBRE_DE_EMOJIS = 11;
-    private static final Dimension MIDA_FINESTRA = new Dimension(1200,800);
+    public static final Dimension MIDA_FINESTRA = new Dimension(1200,800); // És estàtic per poder accedit des de fora.
     private GImage fons;
     private ArrayList<Emoji> emoji;
 
