@@ -46,7 +46,7 @@ public class Grafics extends GraphicsProgram {
 
     
     private static final String FOTO_EMOJIS = System.getProperty("user.dir")
-    + "\\src\\main\\resources\\img";
+    + "\\src\\main\\resources\\img\\";
     private static final String RUTA_FONS_APP = System.getProperty("user.dir")
     + "\\src\\main\\resources\\img\\fons.jpg";
     private static final int NOMBRE_DE_EMOJIS = 11;
