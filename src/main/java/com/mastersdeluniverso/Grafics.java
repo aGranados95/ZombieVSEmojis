@@ -35,7 +35,12 @@ public class Grafics extends GraphicsProgram {
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji9.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
         emoji.add(new Emoji(FOTO_EMOJIS + "player.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
         emoji.add(new Emoji(FOTO_EMOJIS + "zoombie.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+<<<<<<< HEAD
     }
+=======
+    } 
+    
+>>>>>>> b7ee4d43c984aedd097af3370a9e745f870fee8e
 
     private static final String FOTO_EMOJIS = System.getProperty("user.dir")
             + "\\src\\main\\resources\\img";
@@ -46,9 +51,15 @@ public class Grafics extends GraphicsProgram {
     private GImage fons;
     private ArrayList<Emoji> emoji;
 
+<<<<<<< HEAD
     ////////////////////// TEMPORAL/////////////////////
     private Vector2d faltaesto = new Vector2d(0, 0);////
     ///////////////////////////////////////////////////
 
     private static TempsEntreFrames t = new TempsEntreFrames();
 }
+=======
+    //////////////////////TEMPORAL/////////////////////
+    private Vector2d faltaesto = new Vector2d(0,0);
+}   ///////////////////////////////////////////////////
+>>>>>>> b7ee4d43c984aedd097af3370a9e745f870fee8e
