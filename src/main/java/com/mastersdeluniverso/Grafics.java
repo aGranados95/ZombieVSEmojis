@@ -29,24 +29,24 @@ public class Grafics extends GraphicsProgram {
      */
     private void inicialitzarEmoji() {
         emoji = new ArrayList<Emoji>(NOMBRE_DE_EMOJIS);
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji2.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji3.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji4.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji5.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji6.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji7.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji8.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji9.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "player.png", FOTO_EMOJIS + "zoombie.png", ));
-        emoji.add(new Emoji(FOTO_EMOJIS + "zoombie.png", FOTO_EMOJIS + "zoombie.png",));
-    } */
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji2.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji3.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji4.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji5.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji6.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji7.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji8.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji9.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "player.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
+        emoji.add(new Emoji(FOTO_EMOJIS + "zoombie.png", FOTO_EMOJIS + "zoombie.png",faltaesto));
+    }
     
 
 
     
     private static final String FOTO_EMOJIS = System.getProperty("user.dir")
-    + "\\src\\main\\resources\\img";
+    + "\\src\\main\\resources\\img\\";
     private static final String RUTA_FONS_APP = System.getProperty("user.dir")
     + "\\src\\main\\resources\\img\\fons.jpg";
     private static final int NOMBRE_DE_EMOJIS = 11;
