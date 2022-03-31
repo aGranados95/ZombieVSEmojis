@@ -7,5 +7,6 @@ public class App
     {
         new Grafics().start();
         System.out.println( "Hello World!" );
+        new Grafics().start();
     }
 }
