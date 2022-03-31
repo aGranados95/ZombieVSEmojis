@@ -48,12 +48,12 @@ public class Grafics extends GraphicsProgram {
     private static final String FOTO_EMOJIS = System.getProperty("user.dir")
     + "\\src\\main\\resources\\img";
     private static final String RUTA_FONS_APP = System.getProperty("user.dir")
-    + "\\src\\main\\resources\\img\\fons2.png";
+    + "\\src\\main\\resources\\img\\fons2.jpg";
     private static final int NOMBRE_DE_EMOJIS = 11;
     private static final Dimension MIDA_FINESTRA = new Dimension(1200,800);
     private GImage fons;
     private ArrayList<Emoji> emoji;
 
     //////////////////////TEMPORAL/////////////////////
-    private Vector2d faltaesto = new Vector2d(0,0);////
+    private Vector2d faltaesto = new Vector2d(0,0);
 }   ///////////////////////////////////////////////////
