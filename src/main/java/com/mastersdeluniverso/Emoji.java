@@ -15,9 +15,10 @@ public class Emoji {
     // Atributs
 
     /**
-     * Velocitat de moviment l'emoji.
+     * Velocitat de moviment l'emoji. Pot variar
+     * durant el joc.
      */
-    public final double velocitat=10;
+    private Vector2d velocitat = new Vector2d(0,0);
 
     /**
      * Imatges de l'emoji.
@@ -34,6 +35,9 @@ public class Emoji {
      * Posició de l'emoji.
      */
     protected Vector2d pos;
+
+    private double temps_total_en_moviment;
+    private static final double TEMPS_MAX_EN_MOVIMENT = 5.0f;
 
     // Constructores
     /**
@@ -53,9 +57,7 @@ public class Emoji {
 
     // Mètodes
     public void moures(Double deltaTime) {
-        int x = (int) Math.round(velocitat * deltaTime);
-        int y = (int) Math.round(velocitat * deltaTime);
+        Vector2d nouMoviment = new Vector2d(velocitat.multiplicarNatural(deltaTime));
         
-        Vector2d nouMoviment = new Vector2d(x,y);
     }
 }
