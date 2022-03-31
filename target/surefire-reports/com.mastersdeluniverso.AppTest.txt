@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.mastersdeluniverso.AppTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s - in com.mastersdeluniverso.AppTest
+=======
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s - in com.mastersdeluniverso.AppTest
+>>>>>>> b7ee4d43c984aedd097af3370a9e745f870fee8e
