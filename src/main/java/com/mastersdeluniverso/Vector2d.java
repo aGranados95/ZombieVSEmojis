@@ -25,8 +25,9 @@ public class Vector2d {
         this.y += v.y;
     }
 
-    public void multiplicarNatural(double d) {
+    public Vector2d multiplicarNatural(double d) {
         this.x *= d;
         this.y *= d;
+        return this;
     }
 }
