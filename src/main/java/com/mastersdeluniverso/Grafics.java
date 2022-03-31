@@ -1,4 +1,5 @@
 package com.mastersdeluniverso;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.Color;
@@ -16,17 +17,11 @@ public class Grafics extends GraphicsProgram {
 
     }
 
-    /**
-     * Afegeix el fons de l'aplicació.
-     */
     private void inicialitzarFons() {
         fons = new GImage(RUTA_FONS_APP);
         add(fons, 0, 0);
     }
 
-    /**
-     * Afegeix tots els 
-     */
     private void inicialitzarEmoji() {
         emoji = new ArrayList<Emoji>(NOMBRE_DE_EMOJIS);
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
@@ -43,14 +38,12 @@ public class Grafics extends GraphicsProgram {
     } 
     
 
-
-    
     private static final String FOTO_EMOJIS = System.getProperty("user.dir")
     + "\\src\\main\\resources\\img\\";
     private static final String RUTA_FONS_APP = System.getProperty("user.dir")
-    + "\\src\\main\\resources\\img\\fons.jpg";
+            + "\\src\\main\\resources\\img\\fons.jpg";
     private static final int NOMBRE_DE_EMOJIS = 11;
-    private static final Dimension MIDA_FINESTRA = new Dimension(1200,800);
+    public static final Dimension MIDA_FINESTRA = new Dimension(1200, 800); // És estàtic per poder accedit des de fora.
     private GImage fons;
     private ArrayList<Emoji> emoji;
 
