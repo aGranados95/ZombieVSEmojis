@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.Frame;
 import acm.graphics.*;
 import acm.program.*;
 
 import acm.program.GraphicsProgram;
 
-public class Grafics extends GraphicsProgram {
+public class Grafics extends GraphicsProgram implements KeyListener {
     public final void run() {
         this.resize(MIDA_FINESTRA);
         inicialitzarFons();
-
+        this.addKeyListeners();
     }
 
     private void inicialitzarFons() {
@@ -51,4 +53,19 @@ public class Grafics extends GraphicsProgram {
     ///////////////////////////////////////////////////
 
     private static TempsEntreFrames t = new TempsEntreFrames();
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        System.out.println("The key Pressed was: " + e.getKeyChar());
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("The key Pressed was: " + e.getKeyChar());
+    }
+
+    @Override 
+    public void keyReleased(KeyEvent e) {
+        System.out.println("The key Released was: " + e.getKeyChar());
+    }
 }
