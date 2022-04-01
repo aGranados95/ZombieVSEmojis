@@ -54,6 +54,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     private static TempsEntreFrames t = new TempsEntreFrames();
 
+    // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
         System.out.println("The key Pressed was: " + e.getKeyChar());
