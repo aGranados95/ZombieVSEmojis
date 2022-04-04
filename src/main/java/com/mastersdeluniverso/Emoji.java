@@ -46,7 +46,7 @@ public class Emoji {
      * normal.
      * @param dir_img_zombie directori de la imatge del emoji
      * zombificat.
-     * @param v posició del emoji.
+     * @param pos posició del emoji.
      */
     Emoji(String dir_img_normal, String dir_img_zombie, Vector2d pos) {
         normal = new GImage(dir_img_normal);

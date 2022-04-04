@@ -11,6 +11,11 @@ public class Vector2d {
         this.y = y;
     }
 
+    Vector2d(){
+        this.x = 0;
+        this.y = 0;
+    }
+
     Vector2d(Vector2d v) {
         this.x = v.x;
         this.y = v.y;
