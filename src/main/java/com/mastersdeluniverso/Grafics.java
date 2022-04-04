@@ -1,12 +1,12 @@
 package com.mastersdeluniverso;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.Frame;
 import acm.graphics.*;
 import acm.program.*;
 
@@ -16,14 +16,22 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     public final void run() {
         this.resize(MIDA_FINESTRA);
         inicialitzarFons();
-        jugador = new GImage(FOTO_EMOJIS + "\\player.png");
-        jugador.setSize(50,50);
-        jugador.setLocation(300, 300);
-        add(jugador);
-        addKeyListeners(new Grafics());
-
+        this.addKeyListeners();
+        TempsEntreFrames t = new TempsEntreFrames();
         while (true) {
-            jugador.setLocation(mov.x,mov.y);
+            t.update();
+            if (up) {
+                fons.setLocation(fons.getX(), fons.getY() - 100 * t.getDeltaTime());
+            }
+            if (down) {
+                fons.setLocation(fons.getX(), fons.getY() + 100 * t.getDeltaTime());
+            }
+            if (left) {
+                fons.setLocation(fons.getX() - 100 * t.getDeltaTime(), fons.getY());
+            }
+            if (right) {
+                fons.setLocation(fons.getX() + 100 * t.getDeltaTime(), fons.getY());
+            }
         }
 
     }
@@ -66,55 +74,50 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     private Vector2d faltaesto = new Vector2d(0, 0);
     ///////////////////////////////////////////////////
 
+    private static TempsEntreFrames t = new TempsEntreFrames();
 
+    boolean up = false;
+    boolean down = false;
+    boolean left = false;
+    boolean right = false;
+
+    // Funcions per el moviment dels emojis
     @Override
-    public void keyPressed(KeyEvent e) {
-
-        char keyCode = e.getKeyChar();
-
-        if (keyCode == 'w') {
-            System.out.println("Key 'W' has been pressed!");
-            System.out.println(mov.y);
-            jugador.setLocation(jugador.getX(), jugador.getY()+50);
+    public void keyTyped(KeyEvent e) {
+        if (e.getKeyChar() == 'w') {
+            up = true;
         }
-
-        if (keyCode == 'a') {
-            System.out.println("Key 'A' has been pressed!");
-            System.out.println(mov.x);
-            jugador.setLocation(jugador.getX()-50,jugador.getY());
+        if (e.getKeyChar() == 's') {
+            down = true;
         }
-
-        if (keyCode == 's') {
-            System.out.println("Key 'S' has been pressed!");
-            System.out.println(mov.y);
-            jugador.setLocation(jugador.getX(),jugador.getY()-50);
+        if (e.getKeyChar() == 'a') {
+            left = true;
         }
-
-        if (keyCode == 'd') {
-            System.out.println("Key 'D' has been pressed!");
-            System.out.println(mov.x);
-            jugador.setLocation(jugador.getX()+50,jugador.getY());
+        if (e.getKeyChar() == 'd') {
+            right = true;
         }
 
     }
 
     @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("The key Pressed was: " + e.getKeyChar());
+    }
+
+    @Override
     public void keyReleased(KeyEvent e) {
-
-        int keyCode = e.getKeyCode();
-
-        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S) {
-            System.out.println(keyCode);
-            System.out.println("-W -S");
-            System.out.println(mov.y);
-//            mov.y = 0;
+        System.out.println("The key Released was: " + e.getKeyChar());
+        if (e.getKeyChar() == 'w') {
+            up = false;
         }
-
-        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
-            System.out.println(keyCode);
-            System.out.println("-A -D");
-            System.out.println(mov.x);
-//            mov.x = 0;
+        if (e.getKeyChar() == 's') {
+            down = false;
+        }
+        if (e.getKeyChar() == 'a') {
+            left = false;
+        }
+        if (e.getKeyChar() == 'd') {
+            right = false;
         }
     }
 }

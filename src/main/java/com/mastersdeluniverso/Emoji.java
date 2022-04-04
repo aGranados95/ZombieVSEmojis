@@ -42,6 +42,7 @@ public class Emoji {
     // Constructores
     /**
      * Constructor amb paràmetres.
+     *
      * @param dir_img_normal directori de la imatge del emoji
      * normal.
      * @param dir_img_zombie directori de la imatge del emoji
@@ -51,13 +52,56 @@ public class Emoji {
     Emoji(String dir_img_normal, String dir_img_zombie, Vector2d pos) {
         normal = new GImage(dir_img_normal);
         zombificado = new GImage(dir_img_zombie);
-        esZombie = false;   // Per defecte l'emoji no està zombificat.
+        esZombie = false; // Per defecte l'emoji no està zombificat.
         this.pos = new Vector2d(pos);
+        normal.setLocation(pos.x, pos.y);
     }
 
     // Mètodes
+    /**
+     * Realitza el moviment de l'emoji.
+     * @param deltaTime
+     */
     public void moures(Double deltaTime) {
         Vector2d nouMoviment = new Vector2d(velocitat.multiplicarNatural(deltaTime));
-        
+
+    }
+
+    // Getters
+
+    /**
+     * Retorna la imatge de l'emoji, segons l'estat actual
+     *
+     * @return imatge normal si esZombie es fals
+     *         o imatge zombificat si esZombie es cert.
+     */
+    public GImage getImatge() {
+        if (esZombie) {
+            return zombificado;
+        } else {
+            return normal;
+        }
+    }
+
+    /**
+     * @return la posició de l'emoji com Vector2d.
+     */
+    public Vector2d getPos() {
+        return pos;
+    }
+
+    /**
+     * @return si l'emoji es zombie.
+     */
+    public boolean esZombie() {
+        return esZombie;
+    }
+
+    // Setters
+    /**
+     * Transforma l'emoji en zombie.
+     */
+    public void setZombificat() {
+        esZombie = true;
     }
 }
