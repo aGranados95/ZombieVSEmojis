@@ -6,17 +6,17 @@ public class Vector2d {
     public double x;
     public double y;
 
-    Vector2d(int x, int y) {
+    public Vector2d(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    Vector2d(){
+    public Vector2d(){
         this.x = 0;
         this.y = 0;
     }
 
-    Vector2d(Vector2d v) {
+    public Vector2d(Vector2d v) {
         this.x = v.x;
         this.y = v.y;
     }

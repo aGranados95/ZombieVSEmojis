@@ -1,7 +1,6 @@
 package com.mastersdeluniverso;
 
 import acm.graphics.GImage;
-import java.lang.Math;
 
 /**
  * Classe emoji que actua com personatge no jugador del joc.
