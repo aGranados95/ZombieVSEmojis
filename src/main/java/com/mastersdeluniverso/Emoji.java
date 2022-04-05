@@ -2,6 +2,7 @@ package com.mastersdeluniverso;
 
 import acm.graphics.GImage;
 import java.lang.Math;
+import java.util.Random;
 
 /**
  * Classe emoji que actua com personatge no jugador del joc.
@@ -36,6 +37,14 @@ public class Emoji {
     private boolean esZombie;
 
     /**
+     * Variables de direccio del moviment.
+     */
+    private boolean up;
+    private boolean down;
+    private boolean right;
+    private boolean left;
+
+    /**
      * Posició de l'emoji.
      */
     protected Vector2d pos;
@@ -67,10 +76,78 @@ public class Emoji {
     // Mètodes
     /**
      * Realitza el moviment de l'emoji.
+     * 
      * @param deltaTime
      */
     public void moures(Double deltaTime) {
-        Vector2d nouMoviment = new Vector2d(velocitat.multiplicarNatural(deltaTime));
+
+    }
+
+    public void generarDireccioDeMoviment() {
+        Random r = new Random();
+        int n = r.nextInt(8);
+        switch (n) {
+            case 0:
+            //N
+                up = true;
+                left = false;
+                down = false;
+                right = false;
+                break;
+            case 1:
+            //NW
+                up = true;
+                left = true;
+                down = false;
+                right = false;
+
+                break;
+            case 2:
+            //W
+                up = false;
+                left = true;
+                down = false;
+                right = false;
+                break;
+            case 3:
+            //SW
+                up = false;
+                left = true;
+                down = true;
+                right = false;
+                break;
+            case 4:
+            //S
+                up = false;
+                left = false;
+                down = true;
+                right = false;
+                break;
+            case 5:
+            //SE
+                up = false;
+                left = false;
+                down = true;
+                right = true;
+                break;
+            case 6:
+            //E
+                up = false;
+                left = false;
+                down = false;
+                right = true;
+                break;
+            case 7:
+            // NE
+                up = true;
+                left = false;
+                down = false;
+                right = true;
+                break;
+
+            default:
+                break;
+        }
 
     }
 

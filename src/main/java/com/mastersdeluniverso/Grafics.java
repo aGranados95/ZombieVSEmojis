@@ -29,43 +29,26 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     private ArrayList<Emoji> arr_emoji_normal;
     private ArrayList<Emoji> arr_emoji_zombie;
 
+    /** Jugador */
+    Jugador j;
+
     /** Objecte del fons de l'apliació */
     private GImage img_fons;
 
     // ==============Funcions================
     /** Funció principal que executa el programa */
     public final void run() {
-
+        t = new TempsEntreFrames();
         // Inicialització del programa.
         inicialitzarPantalla();
         inicialitzarFons();
-<<<<<<< HEAD
         inicialitzarEmoji();
 
         // Execució. Bucle.
         while (true) {
             t.update(); // Actualització del delta time.
+            j.moures(t.getDeltaTime()); // Mou el jugador.
         }
-=======
-        this.addKeyListeners();
-        TempsEntreFrames t = new TempsEntreFrames();
-        while (true) {
-            t.update();
-            if (up) {
-                fons.setLocation(fons.getX(), fons.getY() - 100 * t.getDeltaTime());
-            }
-            if (down) {
-                fons.setLocation(fons.getX(), fons.getY() + 100 * t.getDeltaTime());
-            }
-            if (left) {
-                fons.setLocation(fons.getX() - 100 * t.getDeltaTime(), fons.getY());
-            }
-            if (right) {
-                fons.setLocation(fons.getX() + 100 * t.getDeltaTime(), fons.getY());
-            }
-        }
-
->>>>>>> 70361ed78d8232eae433478fc680d74dfaae8d6e
     }
 
     /**
@@ -97,6 +80,8 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         }
 
         // Inicialització del jugador.
+        j = new Jugador(DIR_IMATGES + "player.png", DIR_IMATGES + "zoombie.png", new Vector2d(50, 50));
+        add(j.getImatge());
     }
 
     /** Funció per provar el moviment */
@@ -125,40 +110,19 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
-        if (e.getKeyChar() == 'w') {
-            up = true;
-        }
-        if (e.getKeyChar() == 's') {
-            down = true;
-        }
-        if (e.getKeyChar() == 'a') {
-            left = true;
-        }
-        if (e.getKeyChar() == 'd') {
-            right = true;
-        }
-        
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println("The key Pressed was: " + e.getKeyChar());
+        j.detectarMoviment(true, e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println("The key Released was: " + e.getKeyChar());
-        if (e.getKeyChar() == 'w') {
-            up = false;
-        }
-        if (e.getKeyChar() == 's') {
-            down = false;
-        }
-        if (e.getKeyChar() == 'a') {
-            left = false;
-        }
-        if (e.getKeyChar() == 'd') {
-            right = false;
-        }
+        j.detectarMoviment(false, e);
+
     }
 }
