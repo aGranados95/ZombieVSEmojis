@@ -13,46 +13,35 @@ import acm.program.*;
 import acm.program.GraphicsProgram;
 
 public class Grafics extends GraphicsProgram implements KeyListener {
+    //-------------Atributs----------------
+    public static final Dimension MIDA_PANTALLA = new Dimension(800, 600);
+    public static final String DIR_FONS_PANALLA = "\\src\\main\\resources\\fons.jpg\\";
+    public static final String DIR_IMATGES = "src/main/resources/";
+    
+    /** S'utilitza per obtenir delta time */
+    private TempsEntreFrames t;
+
+    /** Arrays dels emojis */
+    private ArrayList<Emoji> arr_emoji_normal;
+    private ArrayList<Emoji> arr_emoji_zombie;
+    
+
+    //------------Funcions-----------------
+
+    /** Funció principal que executa el programa */
     public final void run() {
-        this.resize(MIDA_FINESTRA);
-        inicialitzarFons();
-        this.addKeyListeners();
+        add(new GImage(DIR_FONS_PANALLA));
     }
 
+    /** Inicialitza el fons de la finestra */
     private void inicialitzarFons() {
-        fons = new GImage(RUTA_FONS_APP);
-        add(fons, 0, 0);
     }
 
+    /** Col·loca tots els emojis a la pantalla, el jugador inclós */
     private void inicialitzarEmoji() {
-        emoji = new ArrayList<Emoji>(NOMBRE_DE_EMOJIS);
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji2.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji3.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji4.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji5.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji6.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji7.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji8.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji9.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "player.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
-        emoji.add(new Emoji(FOTO_EMOJIS + "zoombie.png", FOTO_EMOJIS + "zoombie.png", faltaesto));
     }
 
-    private static final String FOTO_EMOJIS = System.getProperty("user.dir")
-            + "\\src\\main\\resources\\img";
-    private static final String RUTA_FONS_APP = System.getProperty("user.dir")
-            + "\\src\\main\\resources\\img\\fons.jpg";
-    private static final int NOMBRE_DE_EMOJIS = 11;
-    public static final Dimension MIDA_FINESTRA = new Dimension(1200, 800); // És estàtic per poder accedit des de fora.
-    private GImage fons;
-    private ArrayList<Emoji> emoji;
-
-    ////////////////////// TEMPORAL/////////////////////
-    private Vector2d faltaesto = new Vector2d(0, 0);////
-    ///////////////////////////////////////////////////
-
-    private static TempsEntreFrames t = new TempsEntreFrames();
+    /** Detecta colisions entre emojis */
 
     // Funcions per el moviment dels emojis
     @Override
@@ -65,7 +54,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         System.out.println("The key Pressed was: " + e.getKeyChar());
     }
 
-    @Override 
+    @Override
     public void keyReleased(KeyEvent e) {
         System.out.println("The key Released was: " + e.getKeyChar());
     }

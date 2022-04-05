@@ -23,8 +23,8 @@ public class Emoji {
     /**
      * Imatges de l'emoji.
      */
-    private GImage normal;
-    private GImage zombificado;
+    protected GImage normal;
+    protected GImage zombificado;
 
     /**
      * Indica si l'emoji està zombificat o no.
