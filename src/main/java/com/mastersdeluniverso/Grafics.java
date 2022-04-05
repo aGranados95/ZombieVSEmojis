@@ -15,8 +15,8 @@ import acm.program.GraphicsProgram;
 public class Grafics extends GraphicsProgram implements KeyListener {
     //-------------Atributs----------------
     public static final Dimension MIDA_PANTALLA = new Dimension(800, 600);
-    public static final String DIR_FONS_PANALLA = "\\src\\main\\resources\\fons.jpg\\";
-    public static final String DIR_IMATGES = "src/main/resources/";
+    public static final String DIR_FONS_PANALLA = System.getProperty("user.dir") + "\\src\\main\\resources\\img\\fons.jpg\\";
+    public static final String DIR_IMATGES = System.getProperty("user.dir") + "src\\main\\resources\\img\\";
     
     /** S'utilitza per obtenir delta time */
     private TempsEntreFrames t;
@@ -24,17 +24,29 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     /** Arrays dels emojis */
     private ArrayList<Emoji> arr_emoji_normal;
     private ArrayList<Emoji> arr_emoji_zombie;
-    
+
+    /** Objecte del fons de l'apliació */
+    private GImage img_fons;
 
     //------------Funcions-----------------
 
     /** Funció principal que executa el programa */
     public final void run() {
-        add(new GImage(DIR_FONS_PANALLA));
+
+        inicialitzarFons();
+        inicialitzarEmoji();
+    }
+
+    private void inicialitzarPantalla() {
+        setSize(MIDA_PANTALLA);
+        setBackground(Color.WHITE);
+        addKeyListeners();
     }
 
     /** Inicialitza el fons de la finestra */
     private void inicialitzarFons() {
+        img_fons = new GImage(DIR_FONS_PANALLA);
+        add(img_fons);
     }
 
     /** Col·loca tots els emojis a la pantalla, el jugador inclós */
