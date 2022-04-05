@@ -26,6 +26,10 @@ public class Emoji {
     protected GImage normal;
     protected GImage zombificado;
 
+    /** Directori de les imatges */
+    protected String dir_img_normal;
+    protected String dir_img_zombie;
+
     /**
      * Indica si l'emoji està zombificat o no.
      */
@@ -50,6 +54,9 @@ public class Emoji {
      * @param v              posició del emoji.
      */
     Emoji(String dir_img_normal, String dir_img_zombie, Vector2d pos) {
+
+        this.dir_img_normal = dir_img_normal;
+        this.dir_img_zombie = dir_img_zombie;
         normal = new GImage(dir_img_normal);
         zombificado = new GImage(dir_img_zombie);
         esZombie = false; // Per defecte l'emoji no està zombificat.
