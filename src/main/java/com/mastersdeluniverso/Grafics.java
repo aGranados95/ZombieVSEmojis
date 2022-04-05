@@ -29,12 +29,12 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     private void inicialitzarEmoji() {
         emoji = new ArrayList<Emoji>(NOMBRE_DE_EMOJIS);
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(1000, 600)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji2.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(1200, 212)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji3.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(344, 800)));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(900, 600)));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji2.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(900, 212)));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji3.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(344, 700)));
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji4.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(600, 279)));
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji5.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(99, 457)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji6.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(128, 10)));
+        emoji.add(new Emoji(FOTO_EMOJIS + "emoji6.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(700, 10)));
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji7.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(457, 500)));
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji8.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(300, 666)));
         emoji.add(new Emoji(FOTO_EMOJIS + "emoji9.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(570, 45)));
@@ -45,7 +45,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         }
 
     }
-    
+
     private void generarMoviment() {
         Random r = new Random();
         for (Emoji mov : emoji) {
@@ -60,18 +60,22 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         for (Emoji emoji3 : emoji) {
             if (emoji3.getPos().x > 1200 - 25/* Radi dels Emojis */) {
                 emoji3.getPos().x = 1200 - 25;
+                emoji3.getPos().x = emoji3.getPos().x * (-1);
                 
+
             }
             if (emoji3.getPos().x < 0 + 25/* Radi dels Emojis */) {
                 emoji3.getPos().x = 25;
+                emoji3.getPos().x = emoji3.getPos().x * (-1);
 
             }
             if (emoji3.getPos().y > 800 - 25/* Radi dels Emojis */) {
                 emoji3.getPos().y = 800 - 25;
-
+                emoji3.getPos().y = emoji3.getPos().y * (-1);
             }
             if (emoji3.getPos().y < 0 + 25/* Radi dels Emojis */) {
                 emoji3.getPos().y = 25;
+                emoji3.getPos().y = emoji3.getPos().y * (-1);
 
             }
         }
@@ -80,7 +84,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     private static final String FOTO_EMOJIS = System.getProperty("user.dir") + "\\src\\main\\resources\\img\\";
     private static final String RUTA_FONS_APP = System.getProperty("user.dir")
             + "\\src\\main\\resources\\img\\fons.jpg";
-    private static final int NOMBRE_DE_EMOJIS = 11;
+    private static final int NOMBRE_DE_EMOJIS = 10;
     private static final int TEMPS_ENTRE_FRAMES = 100; // En milisegons.
     public static final Dimension MIDA_FINESTRA = new Dimension(1200, 800); // És estàtic per poder accedit des de fora.
     private GImage fons;
