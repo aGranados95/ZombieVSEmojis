@@ -16,12 +16,13 @@ public class Jugador extends Emoji {
     }
 
     /**
-     * 
-     * @param esMou
+     * Funció que actualitza la posició del jugador.
+     * @param esPremTecla si es true, el jugador es mou.
+     *
      * @param e
      */
-    public void detectarMoviment(boolean esMou, KeyEvent e) {
-        if (esMou) {
+    public void detectarMoviment(boolean esPremTecla, KeyEvent e) {
+        if (esPremTecla) {
             if (e.getKeyCode() == KeyEvent.VK_UP) {
                 up = true;
             }
@@ -48,5 +49,8 @@ public class Jugador extends Emoji {
                 right = false;
             }
         }
+    }
+
+    public void moures() {
     }
 }
