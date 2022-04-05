@@ -1,82 +1,106 @@
 package com.mastersdeluniverso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.text.Normalizer;
+import java.awt.Frame;
 import acm.graphics.*;
+import acm.program.*;
 
 import acm.program.GraphicsProgram;
 
 public class Grafics extends GraphicsProgram implements KeyListener {
+    // =============Atributs=================
+    public static final Dimension MIDA_PANTALLA = new Dimension(800, 600);
+    public static final String DIR_FONS_PANALLA = System.getProperty("user.dir")
+            + "\\src\\main\\resources\\img\\fons.jpg\\";
+    public static final String DIR_IMATGES = System.getProperty("user.dir") + "\\src\\main\\resources\\img\\";
+    public static final int NOMBRE_EMOJIS = 9;
+    public static final Vector2d MIDA_EMOJI = new Vector2d(20, 20);
+
+    /** S'utilitza per obtenir delta time */
+    private TempsEntreFrames t;
+
+    /** Arrays dels emojis */
+    private ArrayList<Emoji> arr_emoji_normal;
+    private ArrayList<Emoji> arr_emoji_zombie;
+
+    /** Jugador */
+    Jugador j;
+
+    /** Objecte del fons de l'apliació */
+    private GImage img_fons;
+
+    // ==============Funcions================
+    /** Funció principal que executa el programa */
     public final void run() {
-        this.resize(MIDA_FINESTRA);
+        t = new TempsEntreFrames();
+        // Inicialització del programa.
+        inicialitzarPantalla();
         inicialitzarFons();
         inicialitzarEmoji();
 
-        this.addKeyListeners();
-
-        jugador = new GImage(FOTO_EMOJIS + "\\player.png");
-        jugador.setSize(50, 50);
-        jugador.setLocation(100, 100);
-        add(jugador);
-
+        // Execució. Bucle.
         while (true) {
-            t.update();
-            if (up) {
-                System.out.println("W");
-                jugador.setLocation(jugador.getX() + 0, jugador.getY() - 100 * t.getDeltaTime());
-            }
-            if (down) {
-                System.out.println("S");
-                jugador.setLocation(jugador.getX() + 0, jugador.getY() + 100 * t.getDeltaTime());
-            }
-            if (left) {
-                System.out.println("A");
-                jugador.setLocation(jugador.getX() - 100 * t.getDeltaTime(), jugador.getY() + 0);
-            }
-            if (right) {
-                System.out.println("D");
-                jugador.setLocation(jugador.getX() + 100 * t.getDeltaTime(), jugador.getY() + 0);
-            }
+            t.update(); // Actualització del delta time.
+            j.moures(t.getDeltaTime()); // Mou el jugador.
         }
     }
 
+    /**
+     * Funció que posa la mida a la pantalla
+     * i activa els listeners.
+     */
+    private void inicialitzarPantalla() {
+        setSize(MIDA_PANTALLA);
+        setBackground(Color.WHITE);
+        addKeyListeners();
+    }
+
+    /** Inicialitza el fons de la finestra */
     private void inicialitzarFons() {
-        fons = new GImage(RUTA_FONS_APP);
-        add(fons, 0, 0);
+        img_fons = new GImage(DIR_FONS_PANALLA);
+        add(img_fons);
     }
 
+    /** Col·loca tots els emojis a la pantalla, el jugador inclós */
     private void inicialitzarEmoji() {
-        emoji = new ArrayList<>(NOMBRE_DE_EMOJIS);
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji1.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(1000, 600)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji2.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(1000, 212)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji3.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(344, 700)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji4.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(600, 279)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji5.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(99, 457)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji6.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(700, 10)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji7.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(457, 500)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji8.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(300, 666)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "emoji9.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(570, 45)));
-        emoji.add(new Emoji(FOTO_EMOJIS + "zoombie.png", FOTO_EMOJIS + "zoombie.png", new Vector2d(600, 400)));
+        // Inicialització del array d'Emoji normal
+        arr_emoji_normal = new ArrayList<Emoji>();
+        for (int i = 1; i <= NOMBRE_EMOJIS; i++) {
+            // Crear emoji normal
+            Emoji e = new Emoji(DIR_IMATGES + "emoji" + i + ".png", DIR_IMATGES + "zoombie.png", new Vector2d(0, 0));
+            e.getImatge().setSize(MIDA_EMOJI.x, MIDA_EMOJI.y); // Mida de l'emoji
+            arr_emoji_normal.add(e);                           // Afegir a l'array
+            add(arr_emoji_normal.get(i - 1).getImatge());      // Afegir a la pantalla
+        }
 
-        for (Emoji emoji2 : emoji) {
-            add(emoji2.getImatge());
+        // Inicialització del jugador.
+        j = new Jugador(DIR_IMATGES + "player.png", DIR_IMATGES + "zoombie.png", new Vector2d(50, 50));
+        add(j.getImatge());
+    }
+
+    /** Funció per provar el moviment */
+    private void testMoviment() {
+        for (int i = 0; i < 500; i++) {
+            for (Emoji emoji : arr_emoji_normal) {
+                emoji.getImatge().setLocation(emoji.getImatge().getX() + 1, emoji.getImatge().getY() + 1);
+            }
+            long t = 100;
+            try {
+                Thread.sleep(t);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
         }
 
     }
 
-
-    private static final String FOTO_EMOJIS = ".\\src\\main\\resources\\img\\";
-    private static final String RUTA_FONS_APP = ".\\src\\main\\resources\\img\\fons.jpg";
-    private static final int NOMBRE_DE_EMOJIS = 11;
-    public static final Dimension MIDA_FINESTRA = new Dimension(1200, 800); // És estàtic per poder accedit des de fora.
-    private GImage fons;
-    private GImage jugador;
-    private ArrayList<Emoji> emoji;
-
-    private static final TempsEntreFrames t = new TempsEntreFrames();
+    /** Detecta colisions entre emojis */
 
     boolean up = false;
     boolean down = false;
@@ -86,47 +110,19 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.print("The key Pressed was: ");
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            System.out.println("W W W W W W W W W");
-            up = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            System.out.println("S S S S S S S S S");
-            down = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            System.out.println("A A A A A A A A A");
-            left = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            System.out.println("D D D D D D D D D");
-            right = true;
-        }
+        System.out.println("The key Pressed was: " + e.getKeyChar());
+        j.detectarMoviment(true, e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.print("The key Released was: ");
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            System.out.println("W W W W W W W W W");
-            up = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            System.out.println("S S S S S S S S S");
-            down = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            System.out.println("A A A A A A A A A");
-            left = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            System.out.println("D D D D D D D D D");
-            right = false;
-        }
+        System.out.println("The key Released was: " + e.getKeyChar());
+        j.detectarMoviment(false, e);
+
     }
 }
