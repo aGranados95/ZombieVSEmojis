@@ -61,6 +61,7 @@ public class Emoji {
         zombificado = new GImage(dir_img_zombie);
         esZombie = false; // Per defecte l'emoji no està zombificat.
         this.pos = new Vector2d(pos);
+        normal.setLocation(pos.x, pos.y);
     }
 
     // Mètodes

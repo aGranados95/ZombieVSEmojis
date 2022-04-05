@@ -39,12 +39,33 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         // Inicialització del programa.
         inicialitzarPantalla();
         inicialitzarFons();
+<<<<<<< HEAD
         inicialitzarEmoji();
 
         // Execució. Bucle.
         while (true) {
             t.update(); // Actualització del delta time.
         }
+=======
+        this.addKeyListeners();
+        TempsEntreFrames t = new TempsEntreFrames();
+        while (true) {
+            t.update();
+            if (up) {
+                fons.setLocation(fons.getX(), fons.getY() - 100 * t.getDeltaTime());
+            }
+            if (down) {
+                fons.setLocation(fons.getX(), fons.getY() + 100 * t.getDeltaTime());
+            }
+            if (left) {
+                fons.setLocation(fons.getX() - 100 * t.getDeltaTime(), fons.getY());
+            }
+            if (right) {
+                fons.setLocation(fons.getX() + 100 * t.getDeltaTime(), fons.getY());
+            }
+        }
+
+>>>>>>> 70361ed78d8232eae433478fc680d74dfaae8d6e
     }
 
     /**
@@ -96,10 +117,27 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     /** Detecta colisions entre emojis */
 
+    boolean up = false;
+    boolean down = false;
+    boolean left = false;
+    boolean right = false;
+
     // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println("The key Pressed was: " + e.getKeyChar());
+        if (e.getKeyChar() == 'w') {
+            up = true;
+        }
+        if (e.getKeyChar() == 's') {
+            down = true;
+        }
+        if (e.getKeyChar() == 'a') {
+            left = true;
+        }
+        if (e.getKeyChar() == 'd') {
+            right = true;
+        }
+        
     }
 
     @Override
@@ -110,5 +148,17 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println("The key Released was: " + e.getKeyChar());
+        if (e.getKeyChar() == 'w') {
+            up = false;
+        }
+        if (e.getKeyChar() == 's') {
+            down = false;
+        }
+        if (e.getKeyChar() == 'a') {
+            left = false;
+        }
+        if (e.getKeyChar() == 'd') {
+            right = false;
+        }
     }
 }
