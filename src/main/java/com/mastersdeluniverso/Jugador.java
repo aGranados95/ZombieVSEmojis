@@ -60,30 +60,35 @@ public class Jugador extends Emoji {
 
     public void moures(double deltaTime) {
         if (up) {
-            moviment.y = -100;
-        } else {
+            moviment.y = -1;
         }
         if (down) {
-            moviment.y = 100;
-        } else {
+            moviment.y = 1;
+        } else if (!down && !up) {
+            moviment.y = 0;
         }
         if (left) {
-            moviment.x = -100;
-        } else {
+            moviment.x = -1;
         }
         if (right) {
-            moviment.x = 100;
-        } else {
+            moviment.x = 1;
+        } else if (!right && !left) {
+            moviment.x = 0;
         }
 
-        pos = new Vector2d(pos.x + moviment.x, pos.y + moviment.y);
+        pos = new Vector2d(pos.x + moviment.x * deltaTime, pos.y + moviment.y * deltaTime);
         if (pos.x < 0) {
             pos.x = 0;
+        } else if (pos.x > Grafics.MIDA_PANTALLA.getWidth() - normal.getWidth() - 15) {
+            pos.x = Grafics.MIDA_PANTALLA.getWidth() - normal.getWidth() - 15;
         }
         if (pos.y < 0) {
             pos.y = 0;
+        } else if (pos.y > Grafics.MIDA_PANTALLA.getHeight() - normal.getHeight() - 60) {
+            pos.y = Grafics.MIDA_PANTALLA.getHeight() - normal.getHeight() -60;
         }
-        normal.setLocation(pos.x + moviment.x, pos.y + moviment.y);
+        normal.setLocation(pos.x, pos.y);
+        System.out.println("Posició: " + pos.x + " " + pos.y);
 
     }
 }
