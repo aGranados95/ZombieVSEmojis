@@ -101,7 +101,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             }
         }
     }
-
+    
     // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
