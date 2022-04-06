@@ -19,6 +19,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         inicialitzarFons();
         this.addKeyListeners();
         inicialitzarEmoji();
+        generarMoviment();
     }
 
     private void inicialitzarFons() {
@@ -53,31 +54,6 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             int y = r.nextInt(50) - 25;
             TempsEntreFrames ara = new TempsEntreFrames();
             Emoji.moures(ara.getDeltaTime());
-        }
-    }
-
-    private void generarRebotar() {
-        for (Emoji emoji3 : emoji) {
-            if (emoji3.getPos().x > 1200 - 25/* Radi dels Emojis */) {
-                emoji3.getPos().x = 1200 - 25;
-                emoji3.getPos().x = emoji3.getPos().x * (-1);
-                
-
-            }
-            if (emoji3.getPos().x < 0 + 25/* Radi dels Emojis */) {
-                emoji3.getPos().x = 25;
-                emoji3.getPos().x = emoji3.getPos().x * (-1);
-
-            }
-            if (emoji3.getPos().y > 800 - 25/* Radi dels Emojis */) {
-                emoji3.getPos().y = 800 - 25;
-                emoji3.getPos().y = emoji3.getPos().y * (-1);
-            }
-            if (emoji3.getPos().y < 0 + 25/* Radi dels Emojis */) {
-                emoji3.getPos().y = 25;
-                emoji3.getPos().y = emoji3.getPos().y * (-1);
-
-            }
         }
     }
 
