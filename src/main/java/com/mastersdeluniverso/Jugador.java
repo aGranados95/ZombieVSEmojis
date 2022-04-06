@@ -2,8 +2,6 @@ package com.mastersdeluniverso;
 
 import java.awt.event.KeyEvent;
 
-import acm.graphics.GImage;
-
 public class Jugador extends Emoji {
     // Atributs.
     // moviment
@@ -14,7 +12,7 @@ public class Jugador extends Emoji {
 
     // Vector de moviment
     private Vector2d moviment = new Vector2d(0, 0);
-    private final int velocitat = 4;
+    private final double velocitat = .5;
 
     Jugador(String dir_img_normal, String dir_img_zombie, Vector2d pos) {
         super(dir_img_normal, dir_img_zombie, pos);
@@ -58,20 +56,23 @@ public class Jugador extends Emoji {
         }
     }
 
+    /** 
+     * Funció que mou el jugador
+     */
     public void moures(double deltaTime) {
         if (up) {
-            moviment.y = -1;
+            moviment.y = -velocitat;
         }
         if (down) {
-            moviment.y = 1;
+            moviment.y = velocitat;
         } else if (!down && !up) {
             moviment.y = 0;
         }
         if (left) {
-            moviment.x = -1;
+            moviment.x = -velocitat;
         }
         if (right) {
-            moviment.x = 1;
+            moviment.x = velocitat;
         } else if (!right && !left) {
             moviment.x = 0;
         }

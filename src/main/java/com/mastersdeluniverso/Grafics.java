@@ -1,15 +1,11 @@
 package com.mastersdeluniverso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.text.Normalizer;
-import java.awt.Frame;
 import acm.graphics.*;
-import acm.program.*;
 
 import acm.program.GraphicsProgram;
 
@@ -75,8 +71,8 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             // Crear emoji normal
             Emoji e = new Emoji(DIR_IMATGES + "emoji" + i + ".png", DIR_IMATGES + "zoombie.png", new Vector2d(0, 0));
             e.getImatge().setSize(MIDA_EMOJI.x, MIDA_EMOJI.y); // Mida de l'emoji
-            arr_emoji_normal.add(e);                           // Afegir a l'array
-            add(arr_emoji_normal.get(i - 1).getImatge());      // Afegir a la pantalla
+            arr_emoji_normal.add(e); // Afegir a l'array
+            add(arr_emoji_normal.get(i - 1).getImatge()); // Afegir a la pantalla
         }
 
         // Inicialització del jugador.
@@ -84,28 +80,27 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         add(j.getImatge());
     }
 
-    /** Funció per provar el moviment */
-    private void testMoviment() {
-        for (int i = 0; i < 500; i++) {
-            for (Emoji emoji : arr_emoji_normal) {
-                emoji.getImatge().setLocation(emoji.getImatge().getX() + 1, emoji.getImatge().getY() + 1);
-            }
-            long t = 100;
-            try {
-                Thread.sleep(t);
-            } catch (Exception e) {
-                // TODO: handle exception
+    /** Detecta colisions entre emojis */
+    private void detectarColisions() {
+        
+        for (int i = 0; i < arr_emoji_normal.size(); i++) {                 // Recorre array emojis
+            for (int j = 0; j < arr_emoji_zombie.size(); j++) {             // Recorre array emojis zombies
+                if (arr_emoji_normal.get(i).getImatge().getBounds()         // Si hi ha colisió
+                        .intersects(arr_emoji_zombie.get(j).getImatge().getBounds())) {
+                    // Eliminar imatge normal
+                    remove(arr_emoji_normal.get(i).getImatge());
+                    // Transformar a zombie
+                    arr_emoji_normal.get(i).setZombificat();
+                    // Afegir imatge zombie
+                    add(arr_emoji_normal.get(i).getImatge());
+                    // Afegir a l'array de zombies
+                    arr_emoji_zombie.add(arr_emoji_normal.get(i));
+                    // Eliminar de l'array d'emojis normals
+                    arr_emoji_normal.remove(i);
+                }
             }
         }
-
     }
-
-    /** Detecta colisions entre emojis */
-
-    boolean up = false;
-    boolean down = false;
-    boolean left = false;
-    boolean right = false;
 
     // Funcions per el moviment dels emojis
     @Override

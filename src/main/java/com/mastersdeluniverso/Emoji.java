@@ -49,9 +49,6 @@ public class Emoji {
      */
     protected Vector2d pos;
 
-    private double temps_total_en_moviment;
-    private static final double TEMPS_MAX_EN_MOVIMENT = 5.0f;
-
     // Constructores
     /**
      * Constructor amb paràmetres.
