@@ -19,7 +19,7 @@ public class Emoji {
      * Velocitat de moviment l'emoji. Pot variar
      * durant el joc.
      */
-    private Vector2d velocitat = new Vector2d(0, 0);
+    private double velocitat = 0.25;
 
     /**
      * Imatges de l'emoji.
@@ -77,7 +77,25 @@ public class Emoji {
      * @param deltaTime
      */
     public void moures(Double deltaTime) {
+        if (up) {
+            pos.y -= velocitat * deltaTime;
+        }
+        if (down) {
+            pos.y += velocitat * deltaTime;
+        }
+        if (left) {
+            pos.x -= velocitat * deltaTime;
+        }
+        if (right) {
+            pos.x += velocitat * deltaTime;
+        }
 
+        detectarLimitPantalla();
+
+        if (esZombie)
+            zombificado.setLocation(pos.x, pos.y);
+        else
+            normal.setLocation(pos.x, pos.y);
     }
 
     public void generarDireccioDeMoviment() {
@@ -85,14 +103,14 @@ public class Emoji {
         int n = r.nextInt(8);
         switch (n) {
             case 0:
-            //N
+                // N
                 up = true;
                 left = false;
                 down = false;
                 right = false;
                 break;
             case 1:
-            //NW
+                // NW
                 up = true;
                 left = true;
                 down = false;
@@ -100,42 +118,42 @@ public class Emoji {
 
                 break;
             case 2:
-            //W
+                // W
                 up = false;
                 left = true;
                 down = false;
                 right = false;
                 break;
             case 3:
-            //SW
+                // SW
                 up = false;
                 left = true;
                 down = true;
                 right = false;
                 break;
             case 4:
-            //S
+                // S
                 up = false;
                 left = false;
                 down = true;
                 right = false;
                 break;
             case 5:
-            //SE
+                // SE
                 up = false;
                 left = false;
                 down = true;
                 right = true;
                 break;
             case 6:
-            //E
+                // E
                 up = false;
                 left = false;
                 down = false;
                 right = true;
                 break;
             case 7:
-            // NE
+                // NE
                 up = true;
                 left = false;
                 down = false;
@@ -146,6 +164,43 @@ public class Emoji {
                 break;
         }
 
+    }
+
+    private void detectarLimitPantalla() {
+        Random r = new Random();
+        if (pos.x <= 0) {
+            pos.x = 0;
+            left = false;
+            right = true;
+
+            up = r.nextInt(2) == 1;
+            down = r.nextInt(2) == 1;
+
+        }
+        if (pos.x >= Grafics.MIDA_PANTALLA.getWidth() - normal.getWidth() - 15) {
+            pos.x = Grafics.MIDA_PANTALLA.getWidth() - normal.getWidth() - 15;
+            right = false;
+            left = true;
+
+            up = r.nextInt(2) == 1;
+            down = r.nextInt(2) == 1;
+        }
+        if (pos.y <= 0) {
+            pos.y = 0;
+            down = true;
+            up = false;
+
+            left = r.nextInt(2) == 1;
+            right = r.nextInt(2) == 1;
+        }
+        if (pos.y >= Grafics.MIDA_PANTALLA.getHeight() - normal.getHeight() - 60) {
+            pos.y = Grafics.MIDA_PANTALLA.getHeight() - normal.getHeight() - 60;
+            up = true;
+            down = false;
+
+            left = r.nextInt(2) == 1;
+            right = r.nextInt(2) == 1;
+        }
     }
 
     // Getters

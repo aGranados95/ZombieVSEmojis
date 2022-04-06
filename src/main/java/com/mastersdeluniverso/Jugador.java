@@ -89,7 +89,5 @@ public class Jugador extends Emoji {
             pos.y = Grafics.MIDA_PANTALLA.getHeight() - normal.getHeight() -60;
         }
         normal.setLocation(pos.x, pos.y);
-        System.out.println("Posició: " + pos.x + " " + pos.y);
-
     }
 }
