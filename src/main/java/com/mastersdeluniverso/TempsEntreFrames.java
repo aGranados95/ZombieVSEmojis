@@ -4,7 +4,7 @@ public class TempsEntreFrames {
     private double deltaTime;
     private double lastTime;
     private double currentTime;
-    private final static double DIVISOR = 1000;
+    private final static double DIVISOR = 1000000;
 
     public TempsEntreFrames() {
         lastTime = System.nanoTime()/DIVISOR;
