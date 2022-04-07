@@ -26,6 +26,7 @@ public class Jugador extends Emoji {
      *
      * @param e
      */
+    
     public void detectarMoviment(boolean esPremTecla, KeyEvent e) {
         if (esPremTecla) {
             if (e.getKeyChar() == 'w') {
