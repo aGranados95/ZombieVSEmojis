@@ -10,6 +10,8 @@ import acm.graphics.*;
 
 import acm.program.GraphicsProgram;
 
+// TODO: Mesclar arrays de zombie i normal en un sol, després consultar si es zoombie i transformar-lo.
+
 public class Grafics extends GraphicsProgram implements KeyListener {
     public static final boolean DEBUG = false;
     // =============Atributs=================
@@ -48,6 +50,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             j.moures(t.getDeltaTime()); // Mou el jugador.
             moureEmojis(t.getDeltaTime()); // Mou els emojis.
             detectarColisionsNormal();
+            detectarColisionsZombie();
             detetarColisionsNormalJugador();
         }
     }
@@ -70,26 +73,32 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     /** Col·loca tots els emojis a la pantalla, el jugador inclós */
     private void inicialitzarEmoji() {
-        Random r = new Random();
         // Inicialització del array d'Emoji normal
         arr_emoji_normal = new ArrayList<Emoji>();
         for (int i = 1; i <= NOMBRE_EMOJIS; i++) {
-            // Crear emoji normal
-            Emoji e = new Emoji(DIR_IMATGES + "emoji" + i + ".png", DIR_IMATGES + "zoombie.png",
-                    new Vector2d(i * r.nextInt(1) + i * 60, i * r.nextInt(1) + i * 60));
-            e.getImatge().setSize(MIDA_EMOJI.x, MIDA_EMOJI.y); // Mida de l'emoji
+            // CREACIÓ DE L'EMOJI
+            // Vector de posicio.
+            Vector2d v = new Vector2d(i * 60, i * 60);
+            // Crear emoji normal.
+            Emoji e = new Emoji(DIR_IMATGES + "emoji" + i + ".png", DIR_IMATGES + "zoombie.png", v);
+            // Posar mida a l'emoji.
+            e.getImatge().setSize(MIDA_EMOJI.x, MIDA_EMOJI.y);
+            // Generem una direcció aleatòria de moviment.
             e.generarDireccioDeMoviment();
-            arr_emoji_normal.add(e); // Afegir a l'array
-            add(arr_emoji_normal.get(i - 1).getImatge()); // Afegir a la pantalla
+            // Afegir l'emoji a l'array.
+            arr_emoji_normal.add(e);
+            // Mostrar per pantalla
+            add(arr_emoji_normal.get(i - 1).getImatge());
         }
 
         // Inicialització del array d'Emoji zombie
-        arr_emoji_zombie = new ArrayList<Emoji>();
+        arr_emoji_zombie = new ArrayList<Emoji>(8);
         arr_emoji_zombie.add(
-            new Emoji(DIR_IMATGES + "emoji1.png", DIR_IMATGES + "zoombie.png", new Vector2d(200, 220))
-        );
+                new Emoji(DIR_IMATGES + "emoji1.png", DIR_IMATGES + "zoombie.png", new Vector2d(500, 800)));
+        
+        arr_emoji_zombie.get(0).setZombificat();
         arr_emoji_zombie.get(0).getImatge().setSize(MIDA_EMOJI.x, MIDA_EMOJI.y);
-
+        add(arr_emoji_zombie.get(0).getImatge());
 
         // Inicialització del jugador.
         j = new Jugador(DIR_IMATGES + "player.png", DIR_IMATGES + "zoombie.png", new Vector2d(50, 50));
@@ -107,12 +116,11 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         for (int i = 0; i < arr_emoji_zombie.size(); i++) {
             arr_emoji_zombie.get(i).moures(deltaTime);
         }
-        
-    }
 
+    }
+    // TODO: Això no funciona.
     /** Detecta colisions entre emojis */
     private void detectarColisionsZombie() {
-
         for (int i = 0; i < arr_emoji_normal.size(); i++) { // Recorre array emojis
             for (int j = 0; j < arr_emoji_zombie.size(); j++) { // Recorre array emojis zombies
                 if (arr_emoji_normal.get(i).getImatge().getBounds() // Si hi ha colisió
@@ -137,10 +145,10 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             for (int j = 0; j < arr_emoji_normal.size(); j++) {
                 if (i != j) {
                     if (arr_emoji_normal.get(i).getImatge().getBounds() // Si hi ha colisió
-                        .intersects(arr_emoji_normal.get(j).getImatge().getBounds())) {
-                            arr_emoji_normal.get(i).generarDireccioDeMoviment();
-                            arr_emoji_normal.get(j).generarDireccioDeMoviment();
-                        }
+                            .intersects(arr_emoji_normal.get(j).getImatge().getBounds())) {
+                        arr_emoji_normal.get(i).generarDireccioDeMoviment();
+                        arr_emoji_normal.get(j).generarDireccioDeMoviment();
+                    }
                 }
             }
         }
@@ -154,6 +162,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             }
         }
     }
+
     // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
