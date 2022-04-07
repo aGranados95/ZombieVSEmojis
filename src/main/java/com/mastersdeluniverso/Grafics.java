@@ -83,6 +83,9 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             add(arr_emoji_normal.get(i - 1).getImatge()); // Afegir a la pantalla
         }
 
+        // Inicialització del array d'Emoji zombie
+        arr_emoji_zombie = new ArrayList<Emoji>();
+
         // Inicialització del jugador.
         j = new Jugador(DIR_IMATGES + "player.png", DIR_IMATGES + "zoombie.png", new Vector2d(50, 50));
         add(j.getImatge());
@@ -93,6 +96,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         for (int i = 0; i < arr_emoji_normal.size(); i++) {
             arr_emoji_normal.get(i).moures(deltaTime);
         }
+        arr_emoji_zombie.add(new Emoji(dir_img_normal, dir_img_zombie, pos));
     }
 
     /** Detecta colisions entre emojis */
