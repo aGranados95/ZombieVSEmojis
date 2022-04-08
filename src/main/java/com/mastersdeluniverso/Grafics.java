@@ -36,6 +36,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     /** Boolean que s'utilitza per fer debug, en release ha de ser false */
     public static final boolean DEBUG = false; // TODO: Està DEBUG en false?
+    
     // =============Atributs=================
     public static final Dimension MIDA_PANTALLA = new Dimension(800, 600);
     public static final String DIR_FONS_PANALLA = System.getProperty("user.dir")
