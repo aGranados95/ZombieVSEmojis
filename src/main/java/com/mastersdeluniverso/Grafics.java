@@ -2,12 +2,13 @@ package com.mastersdeluniverso;
 
 import java.util.ArrayList;
 
-import javax.naming.InitialContext;
+import java.text.DecimalFormat;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Font;
 import acm.graphics.*;
 
 import acm.program.GraphicsProgram;
@@ -15,6 +16,13 @@ import acm.program.GraphicsProgram;
 // TODO: Mesclar arrays de zombie i normal en un sol, després consultar si es zoombie i transformar-lo.
 
 public class Grafics extends GraphicsProgram implements KeyListener {
+    /**
+     * Enum per l'implementació de la màquina d'estats.
+     * Iniciant: Inici del programa => Jugant
+     * Jugant: Joc en marxa => Finalitzant
+     * Finalitzant: Final del programa. => Iniciant | Sortida/
+     * Sortida: Sortida del programa.
+     */
     enum EstatDelPrograma {
         INICIANT,
         JUGANT,
@@ -22,12 +30,18 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         SORTIDA
     }
 
-    public static final boolean DEBUG = false;
+    private EstatDelPrograma stProg;
+
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+
+    /** Boolean que s'utilitza per fer debug, en release ha de ser false */
+    public static final boolean DEBUG = false; // TODO: Està DEBUG en false?
     // =============Atributs=================
     public static final Dimension MIDA_PANTALLA = new Dimension(800, 600);
     public static final String DIR_FONS_PANALLA = System.getProperty("user.dir")
             + "\\src\\main\\resources\\img\\fons.jpg\\";
-    public static final String DIR_IMATGES = System.getProperty("user.dir") + "\\src\\main\\resources\\img\\";
+    public static final String DIR_IMATGES = System.getProperty("user.dir")
+            + "\\src\\main\\resources\\img\\";
     public static final int NOMBRE_EMOJIS = 8;
     public static final Vector2d MIDA_EMOJI = new Vector2d(50, 50);
 
@@ -37,45 +51,82 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     /** Arrays dels emojis */
     private ArrayList<Emoji> arr_emoji_normal;
 
-    /** Jugador */
+    /** Jugador, és el que es controla per l'usuari */
     Jugador j;
 
-    /** Objecte del fons de l'apliació */
+    /**
+     * Objecte del fons de l'apliació, és necessari
+     * per poder-lo eliminar més tard
+     */
     private GImage img_fons;
 
-    // ==============Funcions================
+    /**
+     * Compta el temps total de joc
+     */
+    private double temps_total = 0;
+
+    /** 
+     * Etiqueta per mostrar el temps del joc.
+     */
+    private GLabel label_temps;
+
+    // ===============Funcions================
     /** Funció principal que executa el programa */
     public final void run() {
-        t = new TempsEntreFrames();
-        // Inicialització del programa.
-        inicialitzarPantalla();
-        inicialitzarFons();
-        inicialitzarEmoji();
+        stProg = EstatDelPrograma.INICIANT;
 
-        // Execució. Bucle.
-        EstatDelPrograma status = EstatDelPrograma.SORTIDA;  //TODO: Estat del programa
-        t.update();
         do {
-            switch (status) {
+            switch (stProg) {
                 case INICIANT:
+                    inici_programa();
                     break;
                 case JUGANT:
+                    proces_joc();
                     break;
                 case FINALITZANT:
                     break;
                 default:
-                    break;
+                    throw new IllegalStateException("Estat del programa desconegut");
             }
-        }
-        while(status != EstatDelPrograma.SORTIDA);
+        } while (stProg != EstatDelPrograma.SORTIDA);
+    }
 
-        while(true) {
+    // ====FUNCIONS DE LA MÀQUINA D'ESTATS====
+    private void inici_programa() {
+        // Inicialització de la finestra i variables.
+        inicialitzarPantalla();
+        t = new TempsEntreFrames();
+
+        // Canviar d'estat.
+        stProg = EstatDelPrograma.JUGANT;
+    }
+
+    /** Executa el joc */
+    private void proces_joc() {
+        // Inicialització del joc.
+        inicialitzarFons();
+        inicialitzarEmoji();
+        inicialitzarTexts();
+
+        // Execució del joc.
+        while (true) {
             t.update();
+            mostraTempsDeJoc();
             j.moures(t.getDeltaTime()); // Mou el jugador.
             moureEmojis(t.getDeltaTime()); // Mou els emojis.
             detectarColisions();
             detetarColisionsNormalJugador();
+
+            if (j.esZombie()) {
+                stProg = EstatDelPrograma.FINALITZANT;
+                break;
+            }
         }
+    }
+
+    /** Mostra el final del joc */
+    private void finalització_del_programa() {
+
     }
 
     /**
@@ -101,7 +152,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         for (int i = 1; i <= NOMBRE_EMOJIS; i++) {
             // CREACIÓ DE L'EMOJI
             // Vector de posicio.
-            Vector2d v = new Vector2d( i * 90, i * 60);
+            Vector2d v = new Vector2d(i * 90, i * 60);
             // Crear emoji normal.
             Emoji e = new Emoji(DIR_IMATGES + "emoji" + i + ".png", DIR_IMATGES + "zoombie.png", v);
             // Posar mida a l'emoji.
@@ -126,7 +177,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         add(j.getImatge());
     }
 
-    /** Mou els emojis */
+    /** Mou els emojis i zoombie */
     private void moureEmojis(double deltaTime) {
         // Moure normals
         for (int i = 0; i < arr_emoji_normal.size(); i++) {
@@ -134,6 +185,11 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         }
     }
 
+    /** 
+     * Detecta colisions entre emojis i zoombies,
+     * en cas de que la colisió sigui entre un emoji
+     * i un zoombie, l'emoji es zombifica.
+     */
     private void detectarColisions() {
         for (int i = 0; i < arr_emoji_normal.size(); i++) {
             for (int j = 0; j < arr_emoji_normal.size(); j++) {
@@ -145,7 +201,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
                     // Canvien de direcció.
                     arr_emoji_normal.get(i).generarDireccioDeMoviment();
                     arr_emoji_normal.get(j).generarDireccioDeMoviment();
-                    
+
                     // Si la colisió és amb un zoombie.
                     if (arr_emoji_normal.get(i).esZombie() && !arr_emoji_normal.get(j).esZombie()) {
 
@@ -160,15 +216,39 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         }
     }
 
+    /**
+     * Detecta les colisions entre emojis i el jugador
+     * en cas de que la colisió sigui entre un zoombie,
+     * es para la partida
+     */
     private void detetarColisionsNormalJugador() {
         for (int i = 0; i < arr_emoji_normal.size(); i++) {
             if (j.getImatge().getBounds()
                     .intersects(arr_emoji_normal.get(i).getImatge().getBounds())) {
                 arr_emoji_normal.get(i).generarDireccioDeMoviment();
+                if (arr_emoji_normal.get(i).esZombie()) {
+                    remove(j.getImatge());
+                    j.setZombificat();
+                }
             }
         }
     }
 
+    /**
+     * Actualitza l'etiqueta de temps_total per mostra
+     * el temps que s'ha estat jugant.
+     */
+    private void mostraTempsDeJoc() {
+        temps_total = temps_total + t.getDeltaTime()/1000; // Delta time està en milisegons
+        // Mostrar el temps de joc.
+       label_temps.setLabel("Temps: " + df.format(temps_total) + " segons");
+    }
+
+    private void inicialitzarTexts() {
+        label_temps = new GLabel("Temps: " + temps_total, 10, 20);
+        label_temps.setFont(new Font("Arial", Font.BOLD, 20));
+        add(label_temps);
+    }
     // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
