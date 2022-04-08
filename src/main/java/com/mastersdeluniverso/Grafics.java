@@ -65,7 +65,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
      */
     private double temps_total = 0;
 
-    /** 
+    /**
      * Etiqueta per mostrar el temps del joc.
      */
     private GLabel label_temps;
@@ -84,6 +84,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
                     proces_joc();
                     break;
                 case FINALITZANT:
+                    finalització_del_programa();
                     break;
                 default:
                     throw new IllegalStateException("Estat del programa desconegut");
@@ -104,20 +105,25 @@ public class Grafics extends GraphicsProgram implements KeyListener {
     /** Executa el joc */
     private void proces_joc() {
         // Inicialització del joc.
+        temps_total = 0;
+
         inicialitzarFons();
         inicialitzarEmoji();
         inicialitzarTexts();
 
         // Execució del joc.
+        t.update();
         while (true) {
-            t.update();
-            mostraTempsDeJoc();
-            j.moures(t.getDeltaTime()); // Mou el jugador.
+            t.update(); 
+            j.moures(t.getDeltaTime());
             moureEmojis(t.getDeltaTime()); // Mou els emojis.
             detectarColisions();
             detetarColisionsNormalJugador();
+            mostraTempsDeJoc();
 
             if (j.esZombie()) {
+                animacioBlinkTemps();
+                netejaDelJoc();
                 stProg = EstatDelPrograma.FINALITZANT;
                 break;
             }
@@ -126,7 +132,15 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     /** Mostra el final del joc */
     private void finalització_del_programa() {
+        String msg1 = "Has durat " + df.format(temps_total) + " segons. ";
+        String msg2 = "Prem R per tornar a jugar, X per sortir";
+        GLabel missatgePerTornarAJugar = new GLabel(msg1 + msg2,
+                MIDA_PANTALLA.width / 2 - 300,
+                MIDA_PANTALLA.height / 2);
 
+        // Posar font
+        missatgePerTornarAJugar.setFont(new Font("Arial", Font.BOLD, 20));
+        add(missatgePerTornarAJugar);
     }
 
     /**
@@ -185,7 +199,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         }
     }
 
-    /** 
+    /**
      * Detecta colisions entre emojis i zoombies,
      * en cas de que la colisió sigui entre un emoji
      * i un zoombie, l'emoji es zombifica.
@@ -239,16 +253,51 @@ public class Grafics extends GraphicsProgram implements KeyListener {
      * el temps que s'ha estat jugant.
      */
     private void mostraTempsDeJoc() {
-        temps_total = temps_total + t.getDeltaTime()/1000; // Delta time està en milisegons
+        temps_total = temps_total + t.getDeltaTime() / 1000; // Delta time està en milisegons
         // Mostrar el temps de joc.
-       label_temps.setLabel("Temps: " + df.format(temps_total) + " segons");
+        label_temps.setLabel("Temps: " + df.format(temps_total) + " segons");
     }
 
+    /**
+     * Crea el text i l'afegeix a la pantalla.
+     */
     private void inicialitzarTexts() {
         label_temps = new GLabel("Temps: " + temps_total, 10, 20);
         label_temps.setFont(new Font("Arial", Font.BOLD, 20));
         add(label_temps);
     }
+
+    /**
+     * Fa parpadejar el temps de joc canviant de color.
+     */
+    private void animacioBlinkTemps() {
+        double temps_blink = 8;
+
+        int nombre_blinks = 10;
+
+        for (int i = 0; i < nombre_blinks; i++) {
+            double temps_blink_actual = 0;
+            while (temps_blink_actual < temps_blink * 2) {
+                temps_blink_actual = temps_blink_actual + t.getDeltaTime() / 1000;
+
+                if (temps_blink_actual > temps_blink) {
+                    label_temps.setColor(Color.WHITE);
+                } else {
+                    label_temps.setColor(Color.BLACK);
+                }
+            }
+        }
+    }
+
+    private void netejaDelJoc() {
+        removeAll();
+        for (Emoji emoji : arr_emoji_normal) {
+            emoji.getImatge().setLocation(0, 0);
+            remove(emoji.getImatge());
+        }
+        arr_emoji_normal.clear();
+    }
+
     // Funcions per el moviment dels emojis
     @Override
     public void keyTyped(KeyEvent e) {
@@ -262,6 +311,15 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         // debug
         if (DEBUG) {
             System.out.println("Position: " + j.getImatge().getX() + " " + j.getImatge().getY());
+        }
+
+        if (stProg == EstatDelPrograma.FINALITZANT) {
+            if (e.getKeyChar() == 'r') {
+                removeAll();
+                stProg = EstatDelPrograma.JUGANT;
+            } else if (e.getKeyChar() == 'x') {
+                System.exit(0);
+            }
         }
     }
 
