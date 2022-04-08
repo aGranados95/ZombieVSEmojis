@@ -92,7 +92,10 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         } while (stProg != EstatDelPrograma.SORTIDA);
     }
 
-    // ====FUNCIONS DE LA MÀQUINA D'ESTATS====
+    /** 
+     * Executa les teasques per iniciar el programa,
+     * Canvia l'estat del programa a Jugant.
+     */
     private void inici_programa() {
         // Inicialització de la finestra i variables.
         inicialitzarPantalla();
@@ -102,7 +105,10 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         stProg = EstatDelPrograma.JUGANT;
     }
 
-    /** Executa el joc */
+    /** 
+     * Executa el joc, quan acaba passa
+     * a l'estat finalitzant.
+     */
     private void proces_joc() {
         // Inicialització del joc.
         temps_total = 0;
@@ -289,12 +295,9 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         }
     }
 
+    // Neteja l'array d'emojis i la pantalla.
     private void netejaDelJoc() {
         removeAll();
-        for (Emoji emoji : arr_emoji_normal) {
-            emoji.getImatge().setLocation(0, 0);
-            remove(emoji.getImatge());
-        }
         arr_emoji_normal.clear();
     }
 
@@ -318,7 +321,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
                 removeAll();
                 stProg = EstatDelPrograma.JUGANT;
             } else if (e.getKeyChar() == 'x') {
-                System.exit(0);
+                stProg = EstatDelPrograma.SORTIDA;
             }
         }
     }
