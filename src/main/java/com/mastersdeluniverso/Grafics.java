@@ -36,7 +36,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     /** Boolean que s'utilitza per fer debug, en release ha de ser false */
     public static final boolean DEBUG = false; // TODO: Està DEBUG en false?
-    
+
     // =============Atributs=================
     public static final Dimension MIDA_PANTALLA = new Dimension(800, 600);
     public static final String DIR_FONS_PANALLA = System.getProperty("user.dir")
@@ -93,7 +93,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         } while (stProg != EstatDelPrograma.SORTIDA);
     }
 
-    /** 
+    /**
      * Executa les teasques per iniciar el programa,
      * Canvia l'estat del programa a Jugant.
      */
@@ -106,7 +106,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         stProg = EstatDelPrograma.JUGANT;
     }
 
-    /** 
+    /**
      * Executa el joc, quan acaba passa
      * a l'estat finalitzant.
      */
@@ -121,7 +121,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         // Execució del joc.
         t.update();
         while (true) {
-            t.update(); 
+            t.update();
             j.moures(t.getDeltaTime());
             moureEmojis(t.getDeltaTime()); // Mou els emojis.
             detectarColisions();
@@ -310,10 +310,13 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        j.detectarMoviment(true, e);
-
+        if (stProg == EstatDelPrograma.JUGANT) {
+            j.detectarMoviment(true, e);
+        }
         // debug
-        if (DEBUG) {
+        if (DEBUG)
+
+        {
             System.out.println("Position: " + j.getImatge().getX() + " " + j.getImatge().getY());
         }
 
@@ -322,7 +325,9 @@ public class Grafics extends GraphicsProgram implements KeyListener {
                 removeAll();
                 stProg = EstatDelPrograma.JUGANT;
             } else if (e.getKeyChar() == 'x') {
+                removeAll();
                 stProg = EstatDelPrograma.SORTIDA;
+                System.exit(0);
             }
         }
     }
