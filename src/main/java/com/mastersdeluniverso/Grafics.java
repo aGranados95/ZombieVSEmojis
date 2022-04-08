@@ -1,7 +1,9 @@
 package com.mastersdeluniverso;
 
 import java.util.ArrayList;
-import java.util.Random;
+
+import javax.naming.InitialContext;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -13,13 +15,20 @@ import acm.program.GraphicsProgram;
 // TODO: Mesclar arrays de zombie i normal en un sol, després consultar si es zoombie i transformar-lo.
 
 public class Grafics extends GraphicsProgram implements KeyListener {
+    enum EstatDelPrograma {
+        INICIANT,
+        JUGANT,
+        FINALITZANT,
+        SORTIDA
+    }
+
     public static final boolean DEBUG = false;
     // =============Atributs=================
     public static final Dimension MIDA_PANTALLA = new Dimension(800, 600);
     public static final String DIR_FONS_PANALLA = System.getProperty("user.dir")
             + "\\src\\main\\resources\\img\\fons.jpg\\";
     public static final String DIR_IMATGES = System.getProperty("user.dir") + "\\src\\main\\resources\\img\\";
-    public static final int NOMBRE_EMOJIS = 9;
+    public static final int NOMBRE_EMOJIS = 8;
     public static final Vector2d MIDA_EMOJI = new Vector2d(50, 50);
 
     /** S'utilitza per obtenir delta time */
@@ -27,7 +36,6 @@ public class Grafics extends GraphicsProgram implements KeyListener {
 
     /** Arrays dels emojis */
     private ArrayList<Emoji> arr_emoji_normal;
-    private ArrayList<Emoji> arr_emoji_zombie;
 
     /** Jugador */
     Jugador j;
@@ -45,12 +53,27 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         inicialitzarEmoji();
 
         // Execució. Bucle.
-        while (true) {
-            t.update(); // Actualització del delta time.
+        EstatDelPrograma status = EstatDelPrograma.SORTIDA;  //TODO: Estat del programa
+        t.update();
+        do {
+            switch (status) {
+                case INICIANT:
+                    break;
+                case JUGANT:
+                    break;
+                case FINALITZANT:
+                    break;
+                default:
+                    break;
+            }
+        }
+        while(status != EstatDelPrograma.SORTIDA);
+
+        while(true) {
+            t.update();
             j.moures(t.getDeltaTime()); // Mou el jugador.
             moureEmojis(t.getDeltaTime()); // Mou els emojis.
-            detectarColisionsNormal();
-            detectarColisionsZombie();
+            detectarColisions();
             detetarColisionsNormalJugador();
         }
     }
@@ -78,7 +101,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         for (int i = 1; i <= NOMBRE_EMOJIS; i++) {
             // CREACIÓ DE L'EMOJI
             // Vector de posicio.
-            Vector2d v = new Vector2d(i * 60, i * 60);
+            Vector2d v = new Vector2d( i * 90, i * 60);
             // Crear emoji normal.
             Emoji e = new Emoji(DIR_IMATGES + "emoji" + i + ".png", DIR_IMATGES + "zoombie.png", v);
             // Posar mida a l'emoji.
@@ -90,18 +113,16 @@ public class Grafics extends GraphicsProgram implements KeyListener {
             // Mostrar per pantalla
             add(arr_emoji_normal.get(i - 1).getImatge());
         }
+        Emoji emojiZoombie = new Emoji(DIR_IMATGES + "zoombie.png", DIR_IMATGES + "zoombie.png",
+                new Vector2d(500, 500));
+        emojiZoombie.setZombificat();
+        add(emojiZoombie.getImatge());
+        arr_emoji_normal.add(arr_emoji_normal.size() - 1, emojiZoombie);
 
         // Inicialització del array d'Emoji zombie
-        arr_emoji_zombie = new ArrayList<Emoji>(8);
-        arr_emoji_zombie.add(
-                new Emoji(DIR_IMATGES + "emoji1.png", DIR_IMATGES + "zoombie.png", new Vector2d(500, 800)));
-        
-        arr_emoji_zombie.get(0).setZombificat();
-        arr_emoji_zombie.get(0).getImatge().setSize(MIDA_EMOJI.x, MIDA_EMOJI.y);
-        add(arr_emoji_zombie.get(0).getImatge());
 
         // Inicialització del jugador.
-        j = new Jugador(DIR_IMATGES + "player.png", DIR_IMATGES + "zoombie.png", new Vector2d(50, 50));
+        j = new Jugador(DIR_IMATGES + "player.png", DIR_IMATGES + "zoombie.png", new Vector2d(50, 500));
         add(j.getImatge());
     }
 
@@ -111,45 +132,30 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         for (int i = 0; i < arr_emoji_normal.size(); i++) {
             arr_emoji_normal.get(i).moures(deltaTime);
         }
-
-        // Moure zoombies
-        for (int i = 0; i < arr_emoji_zombie.size(); i++) {
-            arr_emoji_zombie.get(i).moures(deltaTime);
-        }
-
-    }
-    // TODO: Això no funciona.
-    /** Detecta colisions entre emojis */
-    private void detectarColisionsZombie() {
-        for (int i = 0; i < arr_emoji_normal.size(); i++) { // Recorre array emojis
-            for (int j = 0; j < arr_emoji_zombie.size(); j++) { // Recorre array emojis zombies
-                if (arr_emoji_normal.get(i).getImatge().getBounds() // Si hi ha colisió
-                        .intersects(arr_emoji_zombie.get(j).getImatge().getBounds())) {
-                    // Eliminar imatge normal
-                    remove(arr_emoji_normal.get(i).getImatge());
-                    // Transformar a zombie
-                    arr_emoji_normal.get(i).setZombificat();
-                    // Afegir imatge zombie
-                    add(arr_emoji_normal.get(i).getImatge());
-                    // Afegir a l'array de zombies
-                    arr_emoji_zombie.add(arr_emoji_normal.get(i));
-                    // Eliminar de l'array d'emojis normals
-                    arr_emoji_normal.remove(i);
-                }
-            }
-        }
     }
 
-    private void detectarColisionsNormal() {
+    private void detectarColisions() {
         for (int i = 0; i < arr_emoji_normal.size(); i++) {
             for (int j = 0; j < arr_emoji_normal.size(); j++) {
-                if (i != j) {
-                    if (arr_emoji_normal.get(i).getImatge().getBounds() // Si hi ha colisió
-                            .intersects(arr_emoji_normal.get(j).getImatge().getBounds())) {
-                        arr_emoji_normal.get(i).generarDireccioDeMoviment();
-                        arr_emoji_normal.get(j).generarDireccioDeMoviment();
+                if (i == j)
+                    continue;
+
+                if (arr_emoji_normal.get(i).getImatge().getBounds() // Si hi ha colisió
+                        .intersects(arr_emoji_normal.get(j).getImatge().getBounds())) {
+                    // Canvien de direcció.
+                    arr_emoji_normal.get(i).generarDireccioDeMoviment();
+                    arr_emoji_normal.get(j).generarDireccioDeMoviment();
+                    
+                    // Si la colisió és amb un zoombie.
+                    if (arr_emoji_normal.get(i).esZombie() && !arr_emoji_normal.get(j).esZombie()) {
+
+                        // Eliminem l'imatge normal, el transformem en zoombie i el mostrem.
+                        remove(arr_emoji_normal.get(j).getImatge());
+                        arr_emoji_normal.get(j).setZombificat();
+                        add(arr_emoji_normal.get(j).getImatge());
                     }
                 }
+
             }
         }
     }
