@@ -191,18 +191,7 @@ public class Grafics extends GraphicsProgram implements KeyListener {
         add(emojiZoombie.getImatge());
         arr_emoji_normal.add(arr_emoji_normal.size() - 1, emojiZoombie);
 
-<<<<<<< HEAD
-    private static final String FOTO_EMOJIS = System.getProperty("user.dir")
-    + "\\src\\main\\resources\\img\\";
-    private static final String RUTA_FONS_APP = System.getProperty("user.dir")
-            + "\\src\\main\\resources\\img\\fons.jpg";
-    private static final int NOMBRE_DE_EMOJIS = 11;
-    public static final Dimension MIDA_FINESTRA = new Dimension(1200, 800); // És estàtic per poder accedit des de fora.
-    private GImage fons;
-    private ArrayList<Emoji> emoji;
-=======
         // Inicialització del array d'Emoji zombie
->>>>>>> b2a2aa42db25c6295dafab0fba99d7412492c674
 
         // Inicialització del jugador.
         j = new Jugador(DIR_IMATGES + "player.png", DIR_IMATGES + "zoombie.png", new Vector2d(50, 500));

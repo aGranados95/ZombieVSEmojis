@@ -16,8 +16,7 @@ public class Emoji {
     // Atributs
 
     /**
-     * Velocitat de moviment l'emoji. Pot variar
-     * durant el joc.
+     * Velocitat de moviment l'emoji. 
      */
     private double velocitat = 0.25;
 
@@ -98,6 +97,9 @@ public class Emoji {
             normal.setLocation(pos.x, pos.y);
     }
 
+
+
+    
     public void generarDireccioDeMoviment() {
         Random r = new Random();
         int n = r.nextInt(8);
@@ -235,7 +237,7 @@ public class Emoji {
 
     // Setters
     /**
-     * Transforma l'emoji en zombie.
+     * Transforma l'emoji en zombie. 
      */
     public void setZombificat() {
         esZombie = true;
