@@ -1,25 +1,32 @@
 package com.mastersdeluniverso;
 
-import java.lang.Math;
-
 public class Vector2d {
     public double x;
     public double y;
 
-    Vector2d(int x, int y) {
+    /**
+     * Constructor per parametres
+     * @param x: posició en l'eix x.
+     * @param y: posició en l'eix y.
+     */
+    Vector2d(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Constructor copia.
+     * @param v: vector a copiar.
+     */
     Vector2d(Vector2d v) {
         this.x = v.x;
         this.y = v.y;
     }
 
-    public double distancia(Vector2d v) {
-        return Math.sqrt((v.x-this.x)*(v.x-this.x)+(v.y-this.y)*(v.y-this.y));
-    }
-
+    /**
+     * 
+     * @param v
+     */
     public void sumar(Vector2d v) {
         this.x += v.x;
         this.y += v.y;
